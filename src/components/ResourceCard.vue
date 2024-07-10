@@ -15,7 +15,9 @@ defineProps({
   <div class="card text-center">
     <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title"><a :href="'/resource/' + resourceId">{{ title }}</a></h5>
+      <h5 class="card-title">
+        <RouterLink :to="{ name: 'resource', params: { resourceId: resourceId } }">{{ title }}</RouterLink>
+      </h5>
     </div>
   </div>
 </template>

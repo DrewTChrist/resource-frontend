@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import GridView from '@/views/GridView.vue'
 import ResourceView from '@/views/ResourceView.vue'
+import ManagementView from '@/views/ManagementView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,11 @@ const router = createRouter({
       path: '/grid/:pageId(\\d+)?',
       name: 'grid',
       component: GridView
+    },
+    {
+      path: '/management',
+      name: 'management',
+      component: ManagementView
     },
     {
       path: '/resource/:resourceId(\\d+)',
