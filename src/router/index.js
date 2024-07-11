@@ -86,13 +86,13 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeResolve(async (to, from) => {
   const userLoginStore = useUserLoginStore()
   if (
     // make sure the user is authenticated
     !userLoginStore.authenticated &&
     // Avoid an infinite redirect
-    to.name !== 'login'
+    to.meta.requiresAuth
   ) {
     // redirect the user to the login page
     return { name: 'login' }

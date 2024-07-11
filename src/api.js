@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { useUserLoginStore } from '@/stores/user'
+import router from '@/router/index.js'
+
 
 async function getData(event) {
   axios({
@@ -30,14 +33,12 @@ async function authenticateUser(username, password) {
     url: '/token',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     data: formData
-    /*data: {
-      grant_type: 'password',
-      username: username,
-      password: password
-    }*/
   })
     .then(function (response) {
       // handle success
+      const userLoginStore = useUserLoginStore()
+      userLoginStore.authenticated = true
+      router.push({path: '/home'})
       console.log(response)
     })
     .catch(function (error) {

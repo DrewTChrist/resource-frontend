@@ -27,7 +27,8 @@ const password = ref(null)
               </div>
               <div class="text-center">
                 <button @click="authenticateUser(username, password)" type="button" class="btn btn-primary">
-                  <RouterLink class="nav-link" aria-current="page" href="#" to="/home">Submit</RouterLink>
+                  Submit
+                  <!--<RouterLink class="nav-link" aria-current="page" href="#" to="/home">Submit</RouterLink>-->
                 </button>
               </div>
             </form>
