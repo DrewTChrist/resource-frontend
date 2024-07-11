@@ -1,5 +1,8 @@
 <script setup>
 import axios from 'axios'
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
 
 async function getData(event) {
   axios({

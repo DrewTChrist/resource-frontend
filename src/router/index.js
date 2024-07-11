@@ -4,6 +4,8 @@ import LoginView from '../views/LoginView.vue'
 import GridView from '@/views/GridView.vue'
 import ResourceView from '@/views/ResourceView.vue'
 import ManagementView from '@/views/ManagementView.vue'
+import { useUserLoginStore } from '@/stores/user'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -82,6 +84,19 @@ const router = createRouter({
       }
     }
   ]
+})
+
+router.beforeEach(async (to, from) => {
+  const userLoginStore = useUserLoginStore()
+  if (
+    // make sure the user is authenticated
+    !userLoginStore.authenticated &&
+    // Avoid an infinite redirect
+    to.name !== 'login'
+  ) {
+    // redirect the user to the login page
+    return { name: 'login' }
+  }
 })
 
 export default router
