@@ -15,7 +15,7 @@ watch(() => route.params.pageId, fetchData, { immediate: true })
 async function fetchData(pageId) {
   error.value = resourceData.value = null
   loading.value = true
-  axios({ method: 'get', url: 'https://vercel-fastapi-test-lilac.vercel.app/api/resources' })
+  axios({ method: 'get', url: '/api/resources' })
     .then(function (response) {
       count.value = response.data.pages.length
       var arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
@@ -43,12 +43,10 @@ async function fetchData(pageId) {
 <template>
   <div class="container">
     <h1>Resources</h1>
-    <!--<form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>-->
-    <div class="d-grid gap-2 d-md-flex justify-content-end">
-      <button type="button" class="btn btn-secondary btn-sm">
+    <hr>
+    <div class="d-grid gap-2 d-md-flex justify-content-end mb-3">
+      <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="collapse" data-bs-target="#filter-collapse"
+        aria-expanded="false" aria-controls="filter-collapse">
         Filter
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter"
           viewBox="0 0 16 16">
@@ -57,18 +55,27 @@ async function fetchData(pageId) {
         </svg>
       </button>
     </div>
-    <div class="card">
+    <div class="card collapse mb-3" id="collapseTarget">
+      This is the toggle-able content!
+    </div>
+    <div class="collapse" id="filter-collapse">
+      <div class="card card-body mb-3">
+        Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user
+        activates the relevant trigger.
+      </div>
+    </div>
+    <!--<div>
       <div v-if="resourceData">
         <div v-for="page in resourceData.pages" class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
           <div v-for="resource in page" class="col">
-            <ResourceCard :title="resource.title" :resourceId="resource.id" />
+            <ResourceCard :title="resource.title" :resourceId="resource.id" class="mb-3" />
           </div>
         </div>
       </div>
       <div v-else="resourceData">
         <div v-for="i in 20" class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
           <div v-for="j in 4" class="col">
-            <ResourceCard :title="'Loading...'" :resourceId="0" />
+            <ResourceCard :title="'Loading...'" :resourceId="0" class="mb-3" />
           </div>
         </div>
       </div>
@@ -87,7 +94,7 @@ async function fetchData(pageId) {
           </li>
         </ul>
       </nav>
-    </div>
+    </div>-->
   </div>
 </template>
 

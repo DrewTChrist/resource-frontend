@@ -28,10 +28,10 @@ import { RouterLink, RouterView } from 'vue-router'
                 <RouterLink class="nav-link" href="#" to="/about">About</RouterLink>
               </li>
             </ul>
-            <form v-if="$route.name == 'grid'" class="d-flex" role="search">
+            <!--<form v-if="$route.name == 'grid'" class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            </form>-->
           </div>
         </div>
       </nav>

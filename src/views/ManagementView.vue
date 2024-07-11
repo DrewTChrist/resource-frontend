@@ -5,15 +5,29 @@ import { getData } from '../api.js'
 <template>
   <div class="container">
     <h1>Management</h1>
-    <div class="card">
-      <p>Content</p>
-      <!--<button id="mybutton" @click="getData" class="btn btn-primary" data-bs-target="#collapseTarget"
-        data-bs-toggle="collapse">
-        Bootstrap collapse
-      </button>
-      <div class="collapse py-2" id="collapseTarget">
-        This is the toggle-able content!
-      </div>-->
+    <div>
+      <div>
+        <h2>Server Status</h2>
+      </div>
+      <hr>
+      <div>
+        <h2>Server Management</h2>
+        <form>
+        </form>
+      </div>
+      <hr>
+      <div>
+        <h2>Content Management</h2>
+        <form>
+        </form>
+      </div>
+      <hr>
+      <div>
+        <h2>Metadata Management</h2>
+        <form>
+        </form>
+      </div>
+      <hr>
     </div>
   </div>
 </template>

@@ -1,11 +1,9 @@
 <template>
   <div class="container">
     <h1>About</h1>
-    <div class="card">
-      <p>Content</p>
-    </div>
+    <hr>
+    <p>Content</p>
   </div>
 </template>
 
-<style>
-</style>
+<style></style>
