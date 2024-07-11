@@ -64,7 +64,7 @@ async function fetchData(pageId) {
         activates the relevant trigger.
       </div>
     </div>
-    <!--<div>
+    <div>
       <div v-if="resourceData">
         <div v-for="page in resourceData.pages" class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
           <div v-for="resource in page" class="col">
@@ -94,7 +94,7 @@ async function fetchData(pageId) {
           </li>
         </ul>
       </nav>
-    </div>-->
+    </div>
   </div>
 </template>
 
