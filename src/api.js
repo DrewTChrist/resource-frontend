@@ -21,4 +21,33 @@ async function getData(event) {
     })
 }
 
-export { getData }
+async function authenticateUser(username, password) {
+  const formData = new FormData();
+  formData.append('username', username)
+  formData.append('password', password)
+  axios({
+    method: 'post',
+    url: '/token',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    data: formData
+    /*data: {
+      grant_type: 'password',
+      username: username,
+      password: password
+    }*/
+  })
+    .then(function (response) {
+      // handle success
+      console.log(response)
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error)
+    })
+    .finally(function () {
+      // always executed
+    })
+
+}
+
+export { getData, authenticateUser }

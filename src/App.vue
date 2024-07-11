@@ -1,11 +1,11 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { routeLocationKey, RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
   <header>
     <div class="container">
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav v-if="$route.meta.showNavbar" class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Resource Viewer</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
