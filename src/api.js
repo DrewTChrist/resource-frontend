@@ -3,6 +3,7 @@ import { useUserLoginStore } from '@/stores/user'
 
 
 async function authenticateUser(username, password) {
+  const userLoginStore = useUserLoginStore()
   const formData = new FormData();
   formData.append('username', username)
   formData.append('password', password)
@@ -13,16 +14,17 @@ async function authenticateUser(username, password) {
     data: formData
   })
     .then(function (response) {
-      const userLoginStore = useUserLoginStore()
       userLoginStore.authenticated = true
+      userLoginStore.authFailed = false
       //console.log(response)
     })
     .catch(function (error) {
+      userLoginStore.authenticated = false
+      userLoginStore.authFailed = true
       console.log(error)
     })
     .finally(function () {
     })
-
 }
 
 export { authenticateUser }
