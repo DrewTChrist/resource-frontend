@@ -1,9 +1,22 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { authenticateUser } from '../api.js'
+import { useRouter } from 'vue-router'
+import { useUserLoginStore } from '@/stores/user'
 
+const router = useRouter()
 const username = ref(null)
 const password = ref(null)
+const userLoginStore = useUserLoginStore()
+
+watch(
+  () => userLoginStore.authenticated,
+  async (auth) => {
+    if (auth) {
+      router.push({ path: '/home' })
+    }
+  }
+)
 </script>
 
 <template>

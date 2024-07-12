@@ -1,5 +1,4 @@
 <script setup>
-import { getData } from '../api.js'
 </script>
 
 <template>
