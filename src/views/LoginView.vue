@@ -16,21 +16,8 @@ const userLoginStore = useUserLoginStore()
 watch(
   () => userLoginStore.authenticated,
   async (auth) => {
-    //submitted.value = false
     if (auth) {
       router.push({ path: '/home' })
-    }
-  }
-)
-
-// Watch for failed authentication
-// notify user
-watch(
-  () => userLoginStore.authFailed,
-  async (failed) => {
-    //submitted.value = false
-    if (failed) {
-      //userLoginStore.authFailed = false
     }
   }
 )
@@ -62,9 +49,6 @@ async function authenticate(event) {
         <div class="col">
           <div class="card p-3">
             <h2 class="card-title text-center">Resource Viewer</h2>
-            <!--<p>Submitted: {{ submitted }}</p>
-            <p>Authenticated: {{ userLoginStore.authenticated }}</p>
-            <p>Auth Failed: {{ userLoginStore.authFailed }}</p>-->
             <form class="needs-validation" id="login-form" novalidate>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Username</label>
@@ -74,8 +58,8 @@ async function authenticate(event) {
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input :class="{ 'is-invalid': invalid }" @keyup.enter="authenticate" v-model="password" type="password"
-                  class="form-control" id="exampleInputPassword1" required>
+                <input :class="{ 'is-invalid': invalid }" v-model="password" type="password" class="form-control"
+                  id="exampleInputPassword1" required>
                 <!--<div id="passwordHelp" class="form-text">Do not reuse an old password.</div>-->
               </div>
               <div class="d-grid text-center mb-3">

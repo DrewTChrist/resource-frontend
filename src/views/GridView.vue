@@ -3,6 +3,7 @@ import ResourceCard from '../components/ResourceCard.vue'
 import axios from 'axios'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { getResources } from '../api.js'
 
 const route = useRoute()
 const count = ref(0)
@@ -13,30 +14,25 @@ const error = ref(null)
 watch(() => route.params.pageId, fetchData, { immediate: true })
 
 async function fetchData(pageId) {
-  error.value = resourceData.value = null
-  loading.value = true
-  axios({ method: 'get', url: '/api/resources' })
-    .then(function (response) {
-      count.value = response.data.pages.length
-      var arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
-      var pages = []
-      while (arr.length != 0) {
-        pages.push(arr)
-        arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
-      }
-      console.log(pages)
-      response.data.pages = pages
-      resourceData.value = response.data
-      resourceData.value.count = count
-      console.log(resourceData);
-    })
-    .catch(function (err) {
-      error.value = err.toString()
-      console.log(error);
-    })
-    .finally(function () {
-      loading.value = false
-    });
+  try {
+    const response = await getResources()
+    count.value = response.data.pages.length
+    var arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
+    var pages = []
+    while (arr.length != 0) {
+      pages.push(arr)
+      arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
+    }
+    //console.log(pages)
+    response.data.pages = pages
+    resourceData.value = response.data
+    resourceData.value.count = count
+    //console.log(resourceData);
+  } catch (error) {
+    error.value = error
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 

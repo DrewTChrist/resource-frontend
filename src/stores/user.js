@@ -5,5 +5,6 @@ export const useUserLoginStore = defineStore('userLoginStore', () => {
   const authenticated = ref(false)
   const authFailed = ref(false)
   const error = ref(null)
-  return { authenticated, authFailed, error }
+  const accessToken = ref(null)
+  return { authenticated, authFailed, error, accessToken }
 })
