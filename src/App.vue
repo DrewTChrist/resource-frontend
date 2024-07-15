@@ -1,5 +1,21 @@
 <script setup>
+import { ref, watch } from 'vue'
 import { routeLocationKey, RouterLink, RouterView } from 'vue-router'
+import { useUserLoginStore } from '@/stores/user'
+
+const userLoginStore = useUserLoginStore()
+const showManagement = ref(true)
+
+
+watch(
+  () => userLoginStore.user,
+  async (user) => {
+    showManagement.value = user.admin
+  }
+)
+
+
+
 </script>
 
 <template>
@@ -21,7 +37,7 @@ import { routeLocationKey, RouterLink, RouterView } from 'vue-router'
               <li class="nav-item">
                 <RouterLink class="nav-link" href="#" to="/grid/1">Grid</RouterLink>
               </li>
-              <li class="nav-item">
+              <li v-if="userLoginStore.user && userLoginStore.user.admin" class="nav-item">
                 <RouterLink class="nav-link" href="#" to="/management">Management</RouterLink>
               </li>
               <li class="nav-item">

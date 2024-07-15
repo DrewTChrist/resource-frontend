@@ -1,10 +1,11 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { authenticateUser } from '../api.js'
-import { useRouter } from 'vue-router'
+import { authenticateUser, getCurrentUser } from '../api.js'
+import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
 import { useUserLoginStore } from '@/stores/user'
 
 const router = useRouter()
+const route = useRoute()
 const username = ref("")
 const password = ref("")
 const submitted = ref(false)
@@ -22,6 +23,10 @@ watch(
   }
 )
 
+/*onBeforeRouteLeave(async (to, from) => {
+  await getCurrentUser()
+})*/
+
 function validateForm() {
   if (username.value.length == 0 || password.value.length == 0) {
     invalid.value = true
@@ -36,9 +41,24 @@ async function authenticate(event) {
   validateForm(event)
   if (!invalid.value) {
     submitted.value = true
-    await authenticateUser(username.value, password.value, submitted)
+    //await authenticateUser(username.value, password.value, submitted)
+    try {
+      const response = await authenticateUser(username.value, password.value, submitted)
+      userLoginStore.accessToken = response.data.access_token
+      userLoginStore.authenticated = true
+    } catch (error) {
+      userLoginStore.authFailed = true
+      userLoginStore.error = error
+    }
+    try {
+      const user = await getCurrentUser()
+      userLoginStore.user = user.data
+      console.log(user.data)
+    } catch (error) {
+
+    }
   }
-  //submitted.value = false
+  submitted.value = false
 }
 </script>
 

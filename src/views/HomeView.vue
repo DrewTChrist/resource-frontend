@@ -1,32 +1,14 @@
 <script setup>
 import axios from 'axios'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
+import { useUserLoginStore } from '@/stores/user'
 
-const router = useRouter()
-
-async function getData(event) {
-  axios({
-    method: 'get',
-    url: 'https://vercel-fastapi-test-lilac.vercel.app/items/5',
-    headers: {}
-  }).then(function (response) {
-    // handle success
-    console.log(response);
-    document.getElementById("collapseTarget").innerHTML = JSON.stringify(response.data);
-  })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-      document.getElementById("collapseTarget").innerHTML = error.response;
-    })
-    .finally(function () {
-      // always executed
-    });
-}
+const userLoginStore = useUserLoginStore()
 </script>
 
 <template>
   <div class="container">
+    <p>userLoginStore: {{ }}</p>
     <h1>Home</h1>
     <hr>
     <div class="card">
@@ -51,7 +33,8 @@ async function getData(event) {
             </div>
           </div>
           <div class="carousel-item">
-            <img src="https://placehold.co/600x400" class="d-block w-100" alt="...">
+            <!--<img src="https://placehold.co/600x400" class="d-block w-100" alt="...">-->
+            <img src="https://vercel-fastapi-test-lilac.vercel.app/static/dog.jpg" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
               <h5>Title 89</h5>
               <!--<p>Some representative placeholder content for the second slide.</p>-->

@@ -4,7 +4,9 @@ import LoginView from '../views/LoginView.vue'
 import GridView from '@/views/GridView.vue'
 import ResourceView from '@/views/ResourceView.vue'
 import ManagementView from '@/views/ManagementView.vue'
+import DisabledView from '@/views/DisabledView.vue'
 import { useUserLoginStore } from '@/stores/user'
+import { getCurrentUser } from '../api.js'
 
 
 const router = createRouter({
@@ -37,7 +39,13 @@ const router = createRouter({
         requiresAuth: true,
         requiresAdmin: false,
         showNavbar: true
-      }
+      },
+      /*beforeEnter: (to, from) => {
+        const userLoginStore = useUserLoginStore()
+        if (userLoginStore.user != null && userLoginStore.user.disabled) {
+          return false
+        }
+      },*/
     },
     {
       path: '/about',
@@ -82,16 +90,42 @@ const router = createRouter({
         requiresAdmin: false,
         showNavbar: true
       }
+    },
+    {
+      path: '/disabled',
+      name: 'disabled',
+      component: DisabledView,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: false,
+        showNavbar: false
+      }
     }
   ]
 })
 
 router.beforeEach(async (to, from) => {
+  // redirect user to login page if they aren't authenticated
   const userLoginStore = useUserLoginStore()
   if (!userLoginStore.authenticated && to.meta.requiresAuth) {
-    // redirect the user to the login page
     return { name: 'login' }
   }
 })
+
+router.beforeEach(async (to, from) => {
+  // don't allow user to enter route without admin priveleges
+  const userLoginStore = useUserLoginStore()
+  if (userLoginStore.user != null && !userLoginStore.user.admin && to.meta.requiresAdmin) {
+    return { name: from.name }
+  }
+})
+
+/*router.beforeEach(async (to, from) => {
+  //
+  const userLoginStore = useUserLoginStore()
+  if (userLoginStore.user != null && userLoginStore.user.disabled && to.name != 'disabled') {
+    return { name: 'disabled' }
+  }
+})*/
 
 export default router
