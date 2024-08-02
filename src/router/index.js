@@ -5,7 +5,7 @@ import GridView from '@/views/GridView.vue'
 import ResourceView from '@/views/ResourceView.vue'
 import ManagementView from '@/views/ManagementView.vue'
 import DisabledView from '@/views/DisabledView.vue'
-import { useUserLoginStore } from '@/stores/user'
+import { useSessionStore } from '@/stores/session'
 import { getCurrentUser } from '../api.js'
 
 
@@ -39,13 +39,7 @@ const router = createRouter({
         requiresAuth: true,
         requiresAdmin: false,
         showNavbar: true
-      },
-      /*beforeEnter: (to, from) => {
-        const userLoginStore = useUserLoginStore()
-        if (userLoginStore.user != null && userLoginStore.user.disabled) {
-          return false
-        }
-      },*/
+      }
     },
     {
       path: '/about',
@@ -105,27 +99,33 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  // redirect user to login page if they aren't authenticated
-  const userLoginStore = useUserLoginStore()
-  if (!userLoginStore.authenticated && to.meta.requiresAuth) {
+  console.log(`beforeEach => from: ${from.name} to: ${to.name}`)
+  const sessionStore = useSessionStore()
+  sessionStore.retrieveSession()
+  if (sessionStore.accessToken != null && !sessionStore.authenticated) {
+    try {
+      const response = await getCurrentUser()
+      sessionStore.storeUser(response.data)
+      sessionStore.authenticated = true
+      // console.log(response.data)
+      return { name: to.name }
+    } catch (error) {
+      //sessionStore.error = error.response
+      console.log(error)
+    }
+  }
+  if (!sessionStore.authenticated && to.meta.requiresAuth) {
+    // redirect user to login page if they aren't authenticated
     return { name: 'login' }
   }
-})
-
-router.beforeEach(async (to, from) => {
-  // don't allow user to enter route without admin priveleges
-  const userLoginStore = useUserLoginStore()
-  if (userLoginStore.user != null && !userLoginStore.user.admin && to.meta.requiresAdmin) {
+  if (sessionStore.disabled && to.name != 'disabled') {
+    // redirect user to disabled page
+    return { name: 'disabled' }
+  }
+  if (!sessionStore.admin && to.meta.requiresAdmin) {
+    // redirect to previous page if user is not admin
     return { name: from.name }
   }
 })
-
-/*router.beforeEach(async (to, from) => {
-  //
-  const userLoginStore = useUserLoginStore()
-  if (userLoginStore.user != null && userLoginStore.user.disabled && to.name != 'disabled') {
-    return { name: 'disabled' }
-  }
-})*/
 
 export default router

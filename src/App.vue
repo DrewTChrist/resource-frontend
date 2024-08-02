@@ -1,21 +1,17 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { routeLocationKey, RouterLink, RouterView } from 'vue-router'
-import { useUserLoginStore } from '@/stores/user'
+import { useSessionStore } from '@/stores/session'
 
-const userLoginStore = useUserLoginStore()
-const showManagement = ref(true)
-
+const sessionStore = useSessionStore()
+const showManagement = ref(false)
 
 watch(
-  () => userLoginStore.user,
-  async (user) => {
-    showManagement.value = user.admin
+  () => sessionStore.admin,
+  async (admin) => {
+    showManagement.value = admin
   }
 )
-
-
-
 </script>
 
 <template>
@@ -37,13 +33,14 @@ watch(
               <li class="nav-item">
                 <RouterLink class="nav-link" href="#" to="/grid/1">Grid</RouterLink>
               </li>
-              <li v-if="userLoginStore.user && userLoginStore.user.admin" class="nav-item">
+              <li v-if="showManagement" class="nav-item">
                 <RouterLink class="nav-link" href="#" to="/management">Management</RouterLink>
               </li>
               <li class="nav-item">
                 <RouterLink class="nav-link" href="#" to="/about">About</RouterLink>
               </li>
             </ul>
+            <button @click="sessionStore.logout" class="btn btn-primary" type="button">Logout</button>
             <!--<form v-if="$route.name == 'grid'" class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>

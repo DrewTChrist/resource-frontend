@@ -30,6 +30,7 @@ async function fetchData(pageId) {
     //console.log(resourceData);
   } catch (error) {
     error.value = error
+    console.log(error)
   } finally {
     loading.value = false
   }

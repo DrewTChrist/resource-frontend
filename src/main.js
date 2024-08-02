@@ -11,7 +11,7 @@ import "bootstrap"
 
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://vercel-fastapi-test-lilac.vercel.app'
+axios.defaults.baseURL = 'https://vercel-fastapi-test-lilac.vercel.app/api'
 
 const app = createApp(App)
 

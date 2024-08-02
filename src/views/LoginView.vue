@@ -1,33 +1,37 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { authenticateUser, getCurrentUser } from '../api.js'
-import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
-import { useUserLoginStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+import { useSessionStore } from '@/stores/session'
 
 const router = useRouter()
-const route = useRoute()
-const username = ref("")
-const password = ref("")
+const username = ref('')
+const password = ref('')
 const submitted = ref(false)
 const invalid = ref(false)
-const userLoginStore = useUserLoginStore()
+const sessionStore = useSessionStore()
+
+
+onMounted(() => {
+  // skip the login page if already authenticated from before
+  if (sessionStore.accessToken != null && sessionStore.authenticated) {
+    router.push({ path: '/home' })
+  }
+})
+
 
 // Watch for successful authentication
 // redirect to home
 watch(
-  () => userLoginStore.authenticated,
-  async (auth) => {
-    if (auth) {
+  () => sessionStore.username,
+  async (username) => {
+    if (username) {
       router.push({ path: '/home' })
     }
   }
 )
 
-/*onBeforeRouteLeave(async (to, from) => {
-  await getCurrentUser()
-})*/
-
-function validateForm() {
+function validateForm(event) {
   if (username.value.length == 0 || password.value.length == 0) {
     invalid.value = true
     event.preventDefault()
@@ -41,21 +45,23 @@ async function authenticate(event) {
   validateForm(event)
   if (!invalid.value) {
     submitted.value = true
-    //await authenticateUser(username.value, password.value, submitted)
     try {
       const response = await authenticateUser(username.value, password.value, submitted)
-      userLoginStore.accessToken = response.data.access_token
-      userLoginStore.authenticated = true
+      sessionStore.accessToken = response.data.access_token
+      sessionStore.storeSession()
+      sessionStore.authenticated = true
+      sessionStore.error = null
     } catch (error) {
-      userLoginStore.authFailed = true
-      userLoginStore.error = error
+      sessionStore.authFailed = true
+      sessionStore.error = error.response
     }
     try {
-      const user = await getCurrentUser()
-      userLoginStore.user = user.data
-      console.log(user.data)
+      const response = await getCurrentUser()
+      sessionStore.storeUser(response.data)
+      console.log(response.data)
     } catch (error) {
-
+      //sessionStore.error = error.response
+      //console.log(error)
     }
   }
   submitted.value = false
@@ -63,7 +69,7 @@ async function authenticate(event) {
 </script>
 
 <template>
-  <div style="height: 100vh;">
+  <div style="height: 100vh">
     <div class="container d-flex h-100 justify-content-center">
       <div class="row align-items-center">
         <div class="col">
@@ -73,13 +79,19 @@ async function authenticate(event) {
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Username</label>
                 <input :class="{ 'is-invalid': invalid, 'is-valid': invalid }" v-model="username" type="text"
-                  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
+                <div class="invalid-feedback">
+                  Username field cannot be empty
+                </div>
                 <!--<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input :class="{ 'is-invalid': invalid }" v-model="password" type="password" class="form-control"
-                  id="exampleInputPassword1" required>
+                  id="exampleInputPassword1" required />
+                <div class="invalid-feedback">
+                  Password field cannot be empty
+                </div>
                 <!--<div id="passwordHelp" class="form-text">Do not reuse an old password.</div>-->
               </div>
               <div class="d-grid text-center mb-3">
@@ -91,8 +103,8 @@ async function authenticate(event) {
                   <span role="status"> Loading</span>
                 </button>
               </div>
-              <div v-if="userLoginStore.authFailed" class="alert alert-danger" role="alert">
-                {{ userLoginStore.error.data.detail }}
+              <div v-if="sessionStore.authFailed" class="alert alert-danger" role="alert">
+                {{ sessionStore.error.data.detail }}
               </div>
             </form>
           </div>

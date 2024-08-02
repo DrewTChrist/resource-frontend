@@ -1,16 +1,16 @@
 <script setup>
 import axios from 'axios'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
-import { useUserLoginStore } from '@/stores/user'
+import { useSessionStore } from '@/stores/session'
 
-const userLoginStore = useUserLoginStore()
+const sessionStore = useSessionStore()
+
 </script>
 
 <template>
   <div class="container">
-    <p>userLoginStore: {{ }}</p>
     <h1>Home</h1>
-    <hr>
+    <hr />
     <div class="card">
       <div class="card-body">
         <h2 class="card-title text-center">Newest Content</h2>
@@ -26,7 +26,7 @@ const userLoginStore = useUserLoginStore()
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="https://placehold.co/600x400" class="d-block w-100" alt="...">
+            <img src="https://placehold.co/600x400" class="d-block w-100" alt="..." />
             <div class="carousel-caption d-none d-md-block">
               <h5>Title 46</h5>
               <!--<p>Some representative placeholder content for the first slide.</p>-->
@@ -34,14 +34,14 @@ const userLoginStore = useUserLoginStore()
           </div>
           <div class="carousel-item">
             <!--<img src="https://placehold.co/600x400" class="d-block w-100" alt="...">-->
-            <img src="https://vercel-fastapi-test-lilac.vercel.app/static/dog.jpg" class="d-block w-100" alt="...">
+            <img src="https://vercel-fastapi-test-lilac.vercel.app/static/dog.jpg" class="d-block w-100" alt="..." />
             <div class="carousel-caption d-none d-md-block">
               <h5>Title 89</h5>
               <!--<p>Some representative placeholder content for the second slide.</p>-->
             </div>
           </div>
           <div class="carousel-item">
-            <img src="https://placehold.co/600x400" class="d-block w-100" alt="...">
+            <img src="https://placehold.co/600x400" class="d-block w-100" alt="..." />
             <div class="carousel-caption d-none d-md-block">
               <h5>Title 120</h5>
               <!--<p>Some representative placeholder content for the third slide.</p>-->
