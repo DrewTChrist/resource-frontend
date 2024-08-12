@@ -1,6 +1,5 @@
 <script setup>
 import ResourceCard from '../components/ResourceCard.vue'
-import axios from 'axios'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getResources } from '../api.js'
@@ -16,18 +15,13 @@ watch(() => route.params.pageId, fetchData, { immediate: true })
 async function fetchData(pageId) {
   try {
     const response = await getResources()
-    count.value = response.data.pages.length
-    var arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
-    var pages = []
-    while (arr.length != 0) {
-      pages.push(arr)
-      arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
-    }
-    //console.log(pages)
+    console.log(response)
+    count.value = 1
+    var arr = response.data
+    var pages = [[arr[0]]]
     response.data.pages = pages
     resourceData.value = response.data
     resourceData.value.count = count
-    //console.log(resourceData);
   } catch (error) {
     error.value = error
     console.log(error)
@@ -40,7 +34,7 @@ async function fetchData(pageId) {
 <template>
   <div class="container">
     <h1>Resources</h1>
-    <hr>
+    <hr />
     <div class="d-grid gap-2 d-md-flex justify-content-end mb-3">
       <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="collapse" data-bs-target="#filter-collapse"
         aria-expanded="false" aria-controls="filter-collapse">
@@ -52,20 +46,18 @@ async function fetchData(pageId) {
         </svg>
       </button>
     </div>
-    <div class="card collapse mb-3" id="collapseTarget">
-      This is the toggle-able content!
-    </div>
+    <div class="card collapse mb-3" id="collapseTarget">This is the toggle-able content!</div>
     <div class="collapse" id="filter-collapse">
       <div class="card card-body mb-3">
-        Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user
-        activates the relevant trigger.
+        Some placeholder content for the collapse component. This panel is hidden by default but
+        revealed when the user activates the relevant trigger.
       </div>
     </div>
     <div>
       <div v-if="resourceData">
         <div v-for="page in resourceData.pages" class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
           <div v-for="resource in page" class="col">
-            <ResourceCard :title="resource.title" :resourceId="resource.id" class="mb-3" />
+            <ResourceCard :title="resource.name" :resourceId="resource.resource_id" class="mb-3" />
           </div>
         </div>
       </div>
@@ -78,14 +70,16 @@ async function fetchData(pageId) {
       </div>
       <nav aria-label="Page navigation">
         <ul v-if="resourceData" class="pagination justify-content-end">
-          <li v-bind:class="{ 'disabled': route.params.pageId == 1 }" class="page-item">
+          <li v-bind:class="{ disabled: route.params.pageId == 1 }" class="page-item">
             <RouterLink class="page-link" href="#"
               :to="{ name: 'grid', params: { pageId: parseInt(route.params.pageId) - 1 } }">Previous</RouterLink>
           </li>
-          <li v-bind:class="{ 'active': route.params.pageId == i }" class="page-item" v-for="i in resourceData.count">
-            <RouterLink class="page-link" href="#" :to="{ name: 'grid', params: { pageId: i } }">{{ i }}</RouterLink>
+          <li v-bind:class="{ active: route.params.pageId == i }" class="page-item" v-for="i in resourceData.count">
+            <RouterLink class="page-link" href="#" :to="{ name: 'grid', params: { pageId: i } }">{{
+              i
+            }}</RouterLink>
           </li>
-          <li v-bind:class="{ 'disabled': route.params.pageId == count }" class="page-item">
+          <li v-bind:class="{ disabled: route.params.pageId == count }" class="page-item">
             <RouterLink class="page-link" href="#"
               :to="{ name: 'grid', params: { pageId: parseInt(route.params.pageId) + 1 } }">Next</RouterLink>
           </li>

@@ -11,14 +11,12 @@ const submitted = ref(false)
 const invalid = ref(false)
 const sessionStore = useSessionStore()
 
-
 onMounted(() => {
   // skip the login page if already authenticated from before
   if (sessionStore.accessToken != null && sessionStore.authenticated) {
     router.push({ path: '/home' })
   }
 })
-
 
 // Watch for successful authentication
 // redirect to home
@@ -77,28 +75,39 @@ async function authenticate(event) {
             <h2 class="card-title text-center">Resource Viewer</h2>
             <form class="needs-validation" id="login-form" novalidate>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Username</label>
-                <input :class="{ 'is-invalid': invalid, 'is-valid': invalid }" v-model="username" type="text"
-                  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
-                <div class="invalid-feedback">
-                  Username field cannot be empty
-                </div>
-                <!--<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
+                <label for="username" class="form-label">Username</label>
+                <input
+                  :class="{ 'is-invalid': invalid, 'is-valid': invalid }"
+                  v-model="username"
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  required
+                />
+                <div class="invalid-feedback">Username field cannot be empty</div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input :class="{ 'is-invalid': invalid }" v-model="password" type="password" class="form-control"
-                  id="exampleInputPassword1" required />
-                <div class="invalid-feedback">
-                  Password field cannot be empty
-                </div>
-                <!--<div id="passwordHelp" class="form-text">Do not reuse an old password.</div>-->
+                <label for="password" class="form-label">Password</label>
+                <input
+                  :class="{ 'is-invalid': invalid }"
+                  v-model="password"
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  required
+                />
+                <div class="invalid-feedback">Password field cannot be empty</div>
               </div>
               <div class="d-grid text-center mb-3">
-                <button v-if="!submitted" @click="authenticate" type="submit" class="btn btn-primary">
+                <button
+                  v-if="!submitted"
+                  @click="authenticate"
+                  type="submit"
+                  class="btn btn-primary"
+                >
                   <span>Login</span>
                 </button>
-                <button v-else="submitted" class="btn btn-primary" type="submit" disabled>
+                <button v-else class="btn btn-primary" type="submit" disabled>
                   <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                   <span role="status"> Loading</span>
                 </button>

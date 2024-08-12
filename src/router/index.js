@@ -78,7 +78,7 @@ const router = createRouter({
       path: '/resource/:resourceId(\\d+)',
       name: 'resource',
       component: ResourceView,
-      props: true,
+      props: route => ({ resourceId: parseInt(route.params.resourceId) }),
       meta: {
         requiresAuth: true,
         requiresAdmin: false,

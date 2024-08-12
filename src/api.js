@@ -13,6 +13,16 @@ async function authenticateUser(username, password) {
   })
 }
 
+async function getUsers() {
+  const sessionStore = useSessionStore()
+  const accessToken = sessionStore.accessToken
+  return axios({
+    method: 'get',
+    url: '/users/',
+    headers: { 'Authorization': `Bearer ${accessToken}` }
+  })
+}
+
 async function getCurrentUser() {
   const sessionStore = useSessionStore()
   const accessToken = sessionStore.accessToken
@@ -39,10 +49,25 @@ async function getResources() {
   const accessToken = sessionStore.accessToken
   return axios({
     method: 'get',
-    url: '/resources',
+    url: '/resources/',
     headers: { 'Authorization': `Bearer ${accessToken}` },
     data: {},
   })
 }
 
-export { authenticateUser, createUser, getCurrentUser, getResources }
+async function streamResource(resourceId, start, end) {
+  const sessionStore = useSessionStore()
+  const accessToken = sessionStore.accessToken
+  return axios({
+    method: 'get',
+    url: `/resources/stream/${resourceId}`,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Accept': 'video/mp4;charset=UTF-8',
+      'Range': `bytes=${start}-${end}`
+    },
+    responseType: 'blob',
+  })
+}
+
+export { authenticateUser, createUser, getCurrentUser, getUsers, getResources, streamResource }
