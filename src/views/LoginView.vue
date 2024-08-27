@@ -77,20 +77,16 @@ async function authenticate(event) {
             <h2 class="card-title text-center">Resource Viewer</h2>
             <form class="needs-validation" id="login-form" novalidate>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <label for="username-input" class="form-label">Username</label>
                 <input :class="{ 'is-invalid': invalid, 'is-valid': invalid }" v-model="username" type="text"
-                  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
-                <div class="invalid-feedback">
-                  Username field cannot be empty
-                </div>
+                  class="form-control" id="username-input" required />
+                <div class="invalid-feedback">Username field cannot be empty</div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <label for="password-input" class="form-label">Password</label>
                 <input :class="{ 'is-invalid': invalid }" v-model="password" type="password" class="form-control"
-                  id="exampleInputPassword1" required />
-                <div class="invalid-feedback">
-                  Password field cannot be empty
-                </div>
+                  id="password-input" required />
+                <div class="invalid-feedback">Password field cannot be empty</div>
               </div>
               <div class="d-grid text-center mb-3">
                 <button v-if="!submitted" @click="authenticate" type="submit" class="btn btn-primary">
