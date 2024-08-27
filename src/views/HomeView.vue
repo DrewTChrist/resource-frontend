@@ -1,10 +1,4 @@
 <script setup>
-import axios from 'axios'
-import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
-import { useSessionStore } from '@/stores/session'
-
-const sessionStore = useSessionStore()
-
 </script>
 
 <template>
@@ -34,7 +28,7 @@ const sessionStore = useSessionStore()
           </div>
           <div class="carousel-item">
             <!--<img src="https://placehold.co/600x400" class="d-block w-100" alt="...">-->
-            <img src="https://vercel-fastapi-test-lilac.vercel.app/static/dog.jpg" class="d-block w-100" alt="..." />
+            <img src="https://placehold.co/600x400" class="d-block w-100" alt="..." />
             <div class="carousel-caption d-none d-md-block">
               <h5>Title 89</h5>
               <!--<p>Some representative placeholder content for the second slide.</p>-->
