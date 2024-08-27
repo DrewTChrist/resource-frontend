@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from 'vue-router'
 import { useSessionStore } from '@/stores/session'
 
 const sessionStore = useSessionStore()
@@ -8,11 +9,11 @@ const sessionStore = useSessionStore()
 <template>
   <div class="container mt-3">
     <div class="alert alert-danger" role="alert">
-      <h3 class="alert-heading">This account is disabled: {{ sessionStore.username }}</h3>
+      <h3 class="alert-heading">This account has been disabled: {{ sessionStore.username }}</h3>
       <hr>
       <p class="mb-0">Please contact an administrator.</p>
     </div>
-    <button @click="sessionStore.logout" class="btn btn-primary" type="button">Logout</button>
+    <RouterLink class="btn btn-primary" href="#" to="/login" @click="sessionStore.logout">Logout</RouterLink>
   </div>
 </template>
 
