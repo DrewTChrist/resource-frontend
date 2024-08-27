@@ -69,36 +69,38 @@ async function authenticate(event) {
 </script>
 
 <template>
-  <div style="height: 100vh">
-    <div class="container d-flex h-100 justify-content-center">
-      <div class="row align-items-center">
-        <div class="col">
-          <div class="card p-3">
-            <h2 class="card-title text-center">Resource Viewer</h2>
+  <div class="container">
+    <div class="d-flex vh-100">
+      <div class="row flex-fill align-items-center justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+          <div class="p-3">
+            <h2 class="text-center">Resource Viewer</h2>
             <form class="needs-validation" id="login-form" novalidate>
-              <div class="mb-3">
+              <div class="row mb-3">
                 <label for="username-input" class="form-label">Username</label>
                 <input :class="{ 'is-invalid': invalid, 'is-valid': invalid }" v-model="username" type="text"
                   class="form-control" id="username-input" required />
                 <div class="invalid-feedback">Username field cannot be empty</div>
               </div>
-              <div class="mb-3">
+              <div class="row mb-3">
                 <label for="password-input" class="form-label">Password</label>
                 <input :class="{ 'is-invalid': invalid }" v-model="password" type="password" class="form-control"
                   id="password-input" required />
                 <div class="invalid-feedback">Password field cannot be empty</div>
               </div>
-              <div class="d-grid text-center mb-3">
+              <div class="row text-center mb-3">
                 <button v-if="!submitted" @click="authenticate" type="submit" class="btn btn-primary">
                   <span>Login</span>
                 </button>
                 <button v-else class="btn btn-primary" type="submit" disabled>
                   <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                  <span role="status"> Loading</span>
+                  <!-- <span role="status"> Loading</span> -->
                 </button>
               </div>
-              <div v-if="sessionStore.authFailed" class="alert alert-danger" role="alert">
-                {{ sessionStore.error.data.detail }}
+              <div class="row text-center mb-3">
+                <div v-if="sessionStore.authFailed" class="alert alert-danger" role="alert">
+                  <b>Error:</b> {{ sessionStore.error.data.detail }}
+                </div>
               </div>
             </form>
           </div>
