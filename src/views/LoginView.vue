@@ -98,7 +98,7 @@ async function authenticate(event) {
                 <button v-if="!submitted" @click="authenticate" type="submit" class="btn btn-primary">
                   <span>Login</span>
                 </button>
-                <button v-else="submitted" class="btn btn-primary" type="submit" disabled>
+                <button v-else class="btn btn-primary" type="submit" disabled>
                   <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                   <span role="status"> Loading</span>
                 </button>
