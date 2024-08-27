@@ -36,7 +36,7 @@ async function newUser() {
         <hr>
         <form>
           <h4>Create a new user:</h4>
-          <div class="row">
+          <div class="row row-cols-1 row-cols-md-2">
             <div class="col">
               <div class="form-floating mb-3">
                 <input v-model="firstName" type="text" class="form-control" id="new-user-first-name"
@@ -45,14 +45,14 @@ async function newUser() {
               </div>
             </div>
             <div class="col">
-              <div class="form-floating">
+              <div class="form-floating mb-3">
                 <input v-model="lastName" type="text" class="form-control" id="new-user-last-name"
                   placeholder="Last Name">
                 <label for="new-user-last-name">Last Name</label>
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row row-cols-1 row-cols-md-2">
             <div class="col">
               <div class="form-floating mb-3">
                 <input v-model="username" type="text" class="form-control" id="new-user-username"
@@ -61,14 +61,14 @@ async function newUser() {
               </div>
             </div>
             <div class="col">
-              <div class="form-floating">
+              <div class="form-floating mb-3">
                 <input v-model="password" type="password" class="form-control" id="new-user-password"
                   placeholder="Password">
                 <label for="new-user-password">Password</label>
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row row-cols-1 row-cols-md-3">
             <div class="col">
               <div class="form-check form-switch mb-3">
                 <input v-model="admin" class="form-check-input" type="checkbox" role="switch" id="admin-switch-check">
