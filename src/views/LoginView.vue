@@ -83,7 +83,6 @@ async function authenticate(event) {
                 <div class="invalid-feedback">
                   Username field cannot be empty
                 </div>
-                <!--<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -92,7 +91,6 @@ async function authenticate(event) {
                 <div class="invalid-feedback">
                   Password field cannot be empty
                 </div>
-                <!--<div id="passwordHelp" class="form-text">Do not reuse an old password.</div>-->
               </div>
               <div class="d-grid text-center mb-3">
                 <button v-if="!submitted" @click="authenticate" type="submit" class="btn btn-primary">
