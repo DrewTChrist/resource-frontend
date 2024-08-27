@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { routeLocationKey, RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router'
 import { useSessionStore } from '@/stores/session'
 
 const sessionStore = useSessionStore()
@@ -39,8 +39,10 @@ watch(
               <li class="nav-item">
                 <RouterLink class="nav-link" href="#" to="/about">About</RouterLink>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" @click="sessionStore.logout">Logout</a>
+              </li>
             </ul>
-            <button @click="sessionStore.logout" class="btn btn-primary" type="button">Logout</button>
             <!--<form v-if="$route.name == 'grid'" class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
