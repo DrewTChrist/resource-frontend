@@ -40,7 +40,7 @@ watch(
                 <RouterLink class="nav-link" href="#" to="/about">About</RouterLink>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" @click="sessionStore.logout">Logout</a>
+                <RouterLink class="nav-link" href="#" to="/login" @click="sessionStore.logout">Logout</RouterLink>
               </li>
             </ul>
             <!--<form v-if="$route.name == 'grid'" class="d-flex" role="search">

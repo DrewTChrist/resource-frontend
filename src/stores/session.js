@@ -1,11 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
 
 export const useSessionStore = defineStore('sessionStore', () => {
-  // router for logout
-  const router = useRouter()
-
   // User fields
   const firstName = ref(null)
   const lastName = ref(null)
@@ -60,10 +56,8 @@ export const useSessionStore = defineStore('sessionStore', () => {
   function logout() {
     // remove token from localStorage
     // reset vars
-    // return to login
     localStorage.removeItem('accessToken')
     reset()
-    router.push({ name: 'login' })
   }
 
   return {
