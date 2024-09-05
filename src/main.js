@@ -1,4 +1,5 @@
-import './assets/main.css'
+import './assets/scss/styles.scss'
+import "bootstrap"
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -6,8 +7,6 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap"
 
 import axios from 'axios'
 
