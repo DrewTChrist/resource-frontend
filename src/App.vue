@@ -17,7 +17,7 @@ watch(
 <template>
   <header>
     <div class="container">
-      <nav v-if="$route.meta.showNavbar" class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav v-if="$route.meta.showNavbar" class="navbar navbar-expand-lg bg-body-tertiary mb-3">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Resource Viewer</a>
           <button
@@ -41,9 +41,9 @@ watch(
               <li class="nav-item">
                 <RouterLink class="nav-link" href="#" to="/grid/1">Grid</RouterLink>
               </li>
-              <!-- <li v-if="showManagement" class="nav-item">
-                <RouterLink class="nav-link" href="#" to="/management">Management</RouterLink>
-              </li> -->
+              <li class="nav-item">
+                <RouterLink class="nav-link" href="#" to="/about">About</RouterLink>
+              </li>
               <li v-if="showManagement" class="nav-item dropdown">
                 <a
                   class="nav-link dropdown-toggle"
@@ -56,14 +56,21 @@ watch(
                 </a>
                 <ul class="dropdown-menu">
                   <li>
-                    <RouterLink class="dropdown-item" href="#" to="/management">Users</RouterLink>
+                    <RouterLink class="dropdown-item" href="#" to="/management/users"
+                      >Users</RouterLink
+                    >
                   </li>
-                  <li><a class="dropdown-item" href="#">Content</a></li>
-                  <li><a class="dropdown-item" href="#">Metadata</a></li>
+                  <li>
+                    <RouterLink class="dropdown-item" href="#" to="/management/content"
+                      >Content</RouterLink
+                    >
+                  </li>
+                  <li>
+                    <RouterLink class="dropdown-item" href="#" to="/management/metadata"
+                      >Metadata</RouterLink
+                    >
+                  </li>
                 </ul>
-              </li>
-              <li class="nav-item">
-                <RouterLink class="nav-link" href="#" to="/about">About</RouterLink>
               </li>
             </ul>
             <div class="d-flex nav-item dropdown">
@@ -74,7 +81,9 @@ watch(
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                {{ sessionStore.username }}
+                <span class="me-2">
+                  {{ sessionStore.username }}
+                </span>
               </a>
               <ul class="dropdown-menu">
                 <li>

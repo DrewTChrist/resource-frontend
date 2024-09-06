@@ -3,7 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import GridView from '@/views/GridView.vue'
 import ResourceView from '@/views/ResourceView.vue'
-import ManagementView from '@/views/ManagementView.vue'
+import UsersView from '@/views/management/UsersView.vue'
+import ContentView from '@/views/management/ContentView.vue'
+import MetadataView from '@/views/management/MetadataView.vue'
 import DisabledView from '@/views/DisabledView.vue'
 import { useSessionStore } from '@/stores/session'
 import { getCurrentUser } from '../api.js'
@@ -65,9 +67,29 @@ const router = createRouter({
       }
     },
     {
-      path: '/management',
-      name: 'management',
-      component: ManagementView,
+      path: '/management/users',
+      name: 'users-management',
+      component: UsersView,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true,
+        showNavbar: true
+      }
+    },
+    {
+      path: '/management/content',
+      name: 'content-management',
+      component: ContentView,
+      meta: {
+        requiresAuth: true,
+        requiresAdmin: true,
+        showNavbar: true
+      }
+    },
+    {
+      path: '/management/metadata',
+      name: 'metadata-management',
+      component: MetadataView,
       meta: {
         requiresAuth: true,
         requiresAdmin: true,
