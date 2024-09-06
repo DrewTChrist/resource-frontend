@@ -13,6 +13,16 @@ async function authenticateUser(username, password) {
   })
 }
 
+async function getUsers() {
+  const sessionStore = useSessionStore()
+  const accessToken = sessionStore.accessToken
+  return axios({
+    method: 'get',
+    url: '/users/',
+    headers: { 'Authorization': `Bearer ${accessToken}` }
+  })
+}
+
 async function getCurrentUser() {
   const sessionStore = useSessionStore()
   const accessToken = sessionStore.accessToken
@@ -34,6 +44,17 @@ async function createUser(user) {
   })
 }
 
+async function removeUser(user) {
+  const sessionStore = useSessionStore()
+  const accessToken = sessionStore.accessToken
+  return axios({
+    method: 'post',
+    url: '/users/remove',
+    headers: { 'Authorization': `Bearer ${accessToken}` },
+    data: user
+  })
+}
+
 async function getResources() {
   const sessionStore = useSessionStore()
   const accessToken = sessionStore.accessToken
@@ -45,4 +66,4 @@ async function getResources() {
   })
 }
 
-export { authenticateUser, createUser, getCurrentUser, getResources }
+export { authenticateUser, createUser, removeUser, getUsers, getCurrentUser, getResources }
