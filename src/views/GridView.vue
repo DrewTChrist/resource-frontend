@@ -1,40 +1,48 @@
 <script setup>
 import ResourceCard from '../components/ResourceCard.vue'
-import axios from 'axios'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getResources } from '../api.js'
 
+const COLS = 4;
+// const ROWS = 5;
+const resources = ref([])
+
 const route = useRoute()
-const count = ref(0)
-const loading = ref(false)
-const resourceData = ref(null)
+const numPages = ref(1)
+const loaded = ref(false)
 const error = ref(null)
 
-watch(() => route.params.pageId, fetchData, { immediate: true })
+const currentPage = computed(() => {
+  return route.params.pageId
+})
 
-async function fetchData(pageId) {
+watch(
+  () => route.params.pageId,
+  () => {
+    fetchData()
+    resources.value = []
+  },
+  { immediate: true }
+)
+
+
+async function fetchData() {
   try {
     const response = await getResources()
-    count.value = response.data.pages.length
-    var arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
-    var pages = []
-    while (arr.length != 0) {
-      pages.push(arr)
-      arr = response.data.pages[route.params.pageId - 1].splice(0, 4)
+    const iterations = Math.ceil(response.data.length / COLS)
+    for (var i = 0; i <= iterations; i++) {
+      var row = response.data.splice(0, COLS)
+      resources.value.push(row)
     }
-    //console.log(pages)
-    response.data.pages = pages
-    resourceData.value = response.data
-    resourceData.value.count = count
-    //console.log(resourceData);
   } catch (error) {
     error.value = error
     console.log(error)
   } finally {
-    loading.value = false
+    loaded.value = true
   }
 }
+
 </script>
 
 <template>
@@ -62,32 +70,28 @@ async function fetchData(pageId) {
       </div>
     </div>
     <div>
-      <div v-if="resourceData">
-        <div v-for="page in resourceData.pages" class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
-          <div v-for="resource in page" class="col">
-            <ResourceCard :title="resource.title" :resourceId="resource.id" class="mb-3" />
-          </div>
+      <div v-if="resources.length == 0" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
       </div>
-      <div v-else="resourceData">
-        <div v-for="i in 20" class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
-          <div v-for="j in 4" class="col">
-            <ResourceCard :title="'Loading...'" :resourceId="0" class="mb-3" />
-          </div>
+      <div v-for="row in resources" :key="row" class="row row-cols-2 row-cols-sm-2 row-cols-md-4">
+        <div v-for="resource in row" :key="resource.resource_id" class="col">
+          <ResourceCard :title="resource.name" :resourceId="resource.resource_id" class="mb-3" />
         </div>
       </div>
       <nav aria-label="Page navigation">
-        <ul v-if="resourceData" class="pagination justify-content-end">
-          <li v-bind:class="{ 'disabled': route.params.pageId == 1 }" class="page-item">
+        <ul class="pagination justify-content-end">
+          <li v-bind:class="{ 'disabled': currentPage == 1 }" class="page-item">
             <RouterLink class="page-link" href="#"
-              :to="{ name: 'grid', params: { pageId: parseInt(route.params.pageId) - 1 } }">Previous</RouterLink>
+              :to="{ name: 'grid', params: { pageId: parseInt(currentPage) - 1 } }">Previous</RouterLink>
           </li>
-          <li v-bind:class="{ 'active': route.params.pageId == i }" class="page-item" v-for="i in resourceData.count">
+          <li v-bind:class="{ 'active': currentPage == i }" class="page-item" v-for="i in numPages" :key="i">
             <RouterLink class="page-link" href="#" :to="{ name: 'grid', params: { pageId: i } }">{{ i }}</RouterLink>
           </li>
-          <li v-bind:class="{ 'disabled': route.params.pageId == count }" class="page-item">
+          <li v-bind:class="{ 'disabled': currentPage == numPages }" class="page-item">
             <RouterLink class="page-link" href="#"
-              :to="{ name: 'grid', params: { pageId: parseInt(route.params.pageId) + 1 } }">Next</RouterLink>
+              :to="{ name: 'grid', params: { pageId: parseInt(currentPage) + 1 } }">Next</RouterLink>
           </li>
         </ul>
       </nav>
