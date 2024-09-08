@@ -43,8 +43,12 @@ function updateSelectList(event, user) {
     <tbody v-if="loaded">
       <tr v-for="user in users" :key="user.username">
         <th scope="row">
-          <input @change="(event) => updateSelectList(event, user)" class="form-check-input" type="checkbox"
-            id="flexCheckDefault" />
+          <input
+            @change="(event) => updateSelectList(event, user)"
+            class="form-check-input"
+            type="checkbox"
+            id="flexCheckDefault"
+          />
         </th>
         <td>{{ user.username }}</td>
         <td>{{ user.first_name }}</td>

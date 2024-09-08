@@ -11,14 +11,12 @@ const submitted = ref(false)
 const invalid = ref(false)
 const sessionStore = useSessionStore()
 
-
 onMounted(() => {
   // skip the login page if already authenticated from before
   if (sessionStore.accessToken != null && sessionStore.authenticated) {
     router.push({ path: '/home' })
   }
 })
-
 
 // Watch for successful authentication
 // redirect to home
@@ -78,18 +76,35 @@ async function authenticate(event) {
             <form class="needs-validation" id="login-form" novalidate>
               <div class="row mb-3">
                 <label for="username-input" class="form-label">Username</label>
-                <input :class="{ 'is-invalid': invalid, 'is-valid': invalid }" v-model="username" type="text"
-                  class="form-control" id="username-input" required />
+                <input
+                  :class="{ 'is-invalid': invalid, 'is-valid': invalid }"
+                  v-model="username"
+                  type="text"
+                  class="form-control"
+                  id="username-input"
+                  required
+                />
                 <div class="invalid-feedback">Username field cannot be empty</div>
               </div>
               <div class="row mb-3">
                 <label for="password-input" class="form-label">Password</label>
-                <input :class="{ 'is-invalid': invalid }" v-model="password" type="password" class="form-control"
-                  id="password-input" required />
+                <input
+                  :class="{ 'is-invalid': invalid }"
+                  v-model="password"
+                  type="password"
+                  class="form-control"
+                  id="password-input"
+                  required
+                />
                 <div class="invalid-feedback">Password field cannot be empty</div>
               </div>
               <div class="row text-center mb-3">
-                <button v-if="!submitted" @click="authenticate" type="submit" class="btn btn-primary">
+                <button
+                  v-if="!submitted"
+                  @click="authenticate"
+                  type="submit"
+                  class="btn btn-primary"
+                >
                   <span>Login</span>
                 </button>
                 <button v-else class="btn btn-primary" type="submit" disabled>

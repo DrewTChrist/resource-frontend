@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useSessionStore } from '@/stores/session'
 
 async function authenticateUser(username, password) {
-  const formData = new FormData();
+  const formData = new FormData()
   formData.append('username', username)
   formData.append('password', password)
   return axios({
@@ -19,7 +19,7 @@ async function getUsers() {
   return axios({
     method: 'get',
     url: '/users/',
-    headers: { 'Authorization': `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${accessToken}` }
   })
 }
 
@@ -29,7 +29,7 @@ async function getCurrentUser() {
   return axios({
     method: 'get',
     url: '/users/me',
-    headers: { 'Authorization': `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${accessToken}` }
   })
 }
 
@@ -39,7 +39,7 @@ async function createUser(user) {
   return axios({
     method: 'post',
     url: '/users/create',
-    headers: { 'Authorization': `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken}` },
     data: user
   })
 }
@@ -50,7 +50,7 @@ async function removeUser(user) {
   return axios({
     method: 'post',
     url: '/users/remove',
-    headers: { 'Authorization': `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken}` },
     data: user
   })
 }
@@ -61,8 +61,8 @@ async function getResources() {
   return axios({
     method: 'get',
     url: '/resources',
-    headers: { 'Authorization': `Bearer ${accessToken}` },
-    data: {},
+    headers: { Authorization: `Bearer ${accessToken}` },
+    data: {}
   })
 }
 

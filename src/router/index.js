@@ -10,7 +10,6 @@ import DisabledView from '@/views/DisabledView.vue'
 import { useSessionStore } from '@/stores/session'
 import { getCurrentUser } from '../api.js'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
